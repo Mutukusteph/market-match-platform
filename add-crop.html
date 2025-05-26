@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Crop Price</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="market.html">📊 Market</a>
+    <a href="add-crop.html">➕ Add Price</a>
+    <a href="market-match.html">🔍 Match</a>
+  </nav>
+
+  <header>
+    <h1>📝 Add Crop Price</h1>
+    <p>Fill the form below to submit a new market price.</p>
+  </header>
+
+  <div id="notification" class="notification" style="display: none;"></div>
+
+  <section>
+    <form id="add-crop-form">
+      <label for="crop-name">Crop Name:</label>
+      <input type="text" id="crop-name" name="crop-name" required />
+
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" required/>
+
+      <label for="price">Price per Kg (Ksh):</label>
+      <input type="number" id="price" name="price" step="0.01" required/>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <p id="status-message"></p>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

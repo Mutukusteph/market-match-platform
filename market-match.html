@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Market Match</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="market.html">📊 Market</a>
+    <a href="add-crop.html">➕ Add Price</a>
+    <a href="market-match.html">🔍 Match</a>
+  </nav>
+
+  <header>
+    <h2>🔍 Market Match</h2>
+    <p>Find buyers or market demand near your location.</p>
+  </header>
+
+  <div id="notification" class="notification" style="display: none;"></div>
+
+  <section>
+    <form id="match-form">
+      <label for="match-crop">Crop Name:</label>
+      <input type="text" id="match-crop" required>
+
+      <label for="match-location">Your Location:</label>
+      <input type="text" id="match-location" required>
+
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="match-results"></div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

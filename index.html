@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri Market Prices</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="market.html">📊 Market</a>
+    <a href="add-crop.html">➕ Add Price</a>
+    <a href="market-match.html">🔍 Match</a>
+  </nav>
+
+  <header>
+    <h1>🌾 Agri Market Dashboard</h1>
+    <p>Check the latest crop prices from local markets.</p>
+  </header>
+
+  <div id="loading-message" style="display: none;">
+    <div class="loading-spinner"></div>
+    <span>Loading market prices...</span>
+  </div>
+
+  <div id="notification" class="notification" style="display: none;"></div>
+
+  <table id="marketTable">
+    <thead>
+      <tr>
+        <th>Crop Name</th>
+        <th>Location</th>
+        <th>Price per Kg (Ksh)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will be dynamically inserted -->
+    </tbody>
+  </table>
+
+  <div id="empty-state" style="display: none;">
+    <img src="images/empty.svg" alt="No data" width="100">
+    <p>No market prices available yet. Be the first to <a href="add-crop.html">add a price</a>!</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
