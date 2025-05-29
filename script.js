@@ -159,9 +159,20 @@ async function loadMarketPrices() {
 const cropForm = document.getElementById("add-crop-form");
 if (cropForm) {
   const priceInput = document.getElementById("price");
+  const sellerContactInput = document.getElementById("seller-contact");
+
   priceInput.addEventListener('input', (e) => {
     if (parseFloat(e.target.value) < 0) {
       e.target.setCustomValidity("Price cannot be negative");
+    } else {
+      e.target.setCustomValidity("");
+    }
+  });
+
+  sellerContactInput.addEventListener('input', (e) => {
+    const phonePattern = /^[0-9]{10}$/;
+    if (!phonePattern.test(e.target.value)) {
+      e.target.setCustomValidity("Please enter a valid 10-digit phone number (e.g., 0712345678)");
     } else {
       e.target.setCustomValidity("");
     }
@@ -173,18 +184,19 @@ if (cropForm) {
     const cropName = document.getElementById("crop-name").value.trim();
     const location = document.getElementById("location").value.trim();
     const price = parseFloat(document.getElementById("price").value);
+    const sellerContact = document.getElementById("seller-contact").value.trim();
     const statusMsg = document.getElementById("status-message");
 
     statusMsg.textContent = "";
     statusMsg.className = "";
 
-    if (!cropName || !location || isNaN(price) || price <= 0) {
-      statusMsg.textContent = "Please fill all fields correctly (price must be greater than 0)";
+    if (!cropName || !location || isNaN(price) || price <= 0 || !/^[0-9]{10}$/.test(sellerContact)) {
+      statusMsg.textContent = "Please fill all fields correctly (price must be greater than 0, phone number must be 10 digits)";
       statusMsg.className = "error-message";
       return;
     }
 
-    console.log("Submitting data:", { crop_name: cropName, location, price_per_kg: price });
+    console.log("Submitting data:", { crop_name: cropName, location, price_per_kg: price, seller_contact: sellerContact });
 
     try {
       const { error } = await supabaseClient
@@ -192,7 +204,8 @@ if (cropForm) {
         .insert([{ 
           crop_name: cropName, 
           location, 
-          price_per_kg: price 
+          price_per_kg: price,
+          seller_contact: sellerContact
         }]);
 
       if (error) throw error;
@@ -264,12 +277,36 @@ if (matchForm) {
               <div class="location">📍 ${item.location}</div>
               <div class="price ${trend}">Ksh ${item.price_per_kg.toFixed(2)}/kg</div>
               <div class="contact">
-                <button class="contact-btn" data-id="${item.id}">Contact Seller</button>
+                <button class="contact-btn" data-id="${item.id}" data-contact="${item.seller_contact || 'Not provided'}">Contact Seller</button>
+                <div class="contact-info" style="display: none; margin-top: 10px; color: #1f2937;"></div>
               </div>
             </div>
           `;
         }
         resultsContainer.innerHTML = matchCards;
+
+        // Add event listener for Contact Seller buttons
+        document.querySelectorAll('.contact-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const contact = e.target.getAttribute('data-contact');
+            const contactInfoDiv = e.target.nextElementSibling;
+
+            if (contact === 'Not provided') {
+              contactInfoDiv.textContent = 'Seller contact not available.';
+              contactInfoDiv.style.display = 'block';
+              showNotification('No contact information available for this seller.', 'error');
+              return;
+            }
+
+            // Display the phone number with a clickable link to initiate a call
+            contactInfoDiv.innerHTML = `📞 Seller Contact: <a href="tel:${contact}">${contact}</a>`;
+            contactInfoDiv.style.display = 'block';
+            showNotification('Contact information revealed! Click to call the seller.', 'success');
+
+            // Optionally, hide the button after clicking
+            e.target.style.display = 'none';
+          });
+        });
       }
     } catch (error) {
       resultsContainer.innerHTML = `

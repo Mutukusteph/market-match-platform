@@ -212,6 +212,25 @@ tr:hover {
   background: #2563eb;
 }
 
+/* Contact Info Styling */
+.contact-info {
+  background: #e6f0fa;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.contact-info a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-info a:hover {
+  text-decoration: underline;
+}
+
 /* Empty State */
 #empty-state, .empty-state, .empty-result {
   text-align: center;
